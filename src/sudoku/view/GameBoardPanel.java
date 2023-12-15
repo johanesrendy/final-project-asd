@@ -1,7 +1,11 @@
-package sudoku;
+package sudoku.view;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import sudoku.model.Puzzle;
+import sudoku.model.SudokuConstants;
+import sudoku.view.Cell;
 
 public class GameBoardPanel extends JPanel {
    private static final long serialVersionUID = 1L;  // to prevent serial warning
@@ -73,7 +77,7 @@ public enum CellStatus {
                 }
             }
         }
-        
+
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     }
     public void newGame(){

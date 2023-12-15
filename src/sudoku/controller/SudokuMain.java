@@ -1,6 +1,8 @@
-package sudoku;
+package sudoku.controller;
 import java.awt.*;
 import javax.swing.*;
+
+import sudoku.view.GameBoardPanel;
 /**
  * The main Sudoku program
  */

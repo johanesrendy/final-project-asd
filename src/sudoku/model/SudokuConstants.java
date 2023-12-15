@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.model;
 /**
  * Define the named constants used in many classes.
  */

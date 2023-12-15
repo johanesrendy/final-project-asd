@@ -1,4 +1,5 @@
-package sudoku;
+package sudoku.model;
+
 /**
  * The Sudoku number puzzle to be solved
  */
