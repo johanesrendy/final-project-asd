@@ -25,6 +25,8 @@ git push
 # kalo mau ngerjain lagi:
 1. buka terminalnya ketik
 ```git
+git fetch --all
+git checkout namakalian
 git pull origin main
 ```
 2. sesuaiin sama codingan kalian
