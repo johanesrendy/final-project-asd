@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.Random;
+
 /**
  * The Sudoku number puzzle to be solved
  */
@@ -30,17 +32,24 @@ public class Puzzle {
             }
         }
 
-        // Need to use input parameter cellsToGuess!
-        // Hardcoded for testing, only 2 cells of "8" is NOT GIVEN
-        boolean[][] hardcodedIsGiven = { { true, true, true, true, true, false, true, true, true },
-                { true, true, true, true, true, true, true, true, false },
-                { true, true, true, true, true, true, true, true, true },
-                { true, true, true, true, true, true, true, true, true },
-                { true, true, true, true, true, true, true, true, true },
-                { true, true, true, true, true, true, true, true, true },
-                { true, true, true, true, true, true, true, true, true },
-                { true, true, true, true, true, true, true, true, true },
-                { true, true, true, true, true, true, true, true, true } };
+        // Use the Randomizer class to randomize "isGiven"
+        SudokuBlankGenerator randomizer = new SudokuBlankGenerator(cellsToGuess);
+        boolean[][] hardcodedIsGiven = randomizer.getIsGiven();
+
+        // Randomly set "isGiven" cells
+        Random random = new Random();
+        int remainingCellsToGuess = cellsToGuess;
+
+        while (remainingCellsToGuess > 0) {
+            int row = random.nextInt(SudokuConstants.GRID_SIZE);
+            int col = random.nextInt(SudokuConstants.GRID_SIZE);
+
+            // If the cell is not already marked as to be guessed
+            if (!isGiven[row][col]) {
+                isGiven[row][col] = true;
+                remainingCellsToGuess--;
+            }
+        }
 
         // Copy from hardcodedIsGiven into array "isGiven"
         for (int row = 0; row < SudokuConstants.GRID_SIZE; ++row) {
