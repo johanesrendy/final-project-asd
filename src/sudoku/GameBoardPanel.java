@@ -1,13 +1,8 @@
-package sudoku.toolbar;
+package sudoku;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
-import sudoku.Cell;
-import sudoku.CellStatus;
-import sudoku.SudokuConstants;
-import sudoku.puzzle.Puzzle;
 
 public class GameBoardPanel extends JPanel {
     private static final long serialVersionUID = 1L; // to prevent serial warning

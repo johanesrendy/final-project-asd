@@ -1,10 +1,6 @@
-package sudoku.puzzle;
+package sudoku;
 
 import java.util.Random;
-
-import sudoku.SudokuBlankGenerator;
-import sudoku.SudokuConstants;
-import sudoku.SudokuGenerator;
 
 /**
  * The Sudoku number puzzle to be solved
