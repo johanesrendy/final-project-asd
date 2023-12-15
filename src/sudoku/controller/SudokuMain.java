@@ -1,4 +1,4 @@
-package sudoku;
+package sudoku.controller;
 
 import java.awt.*;
 import javax.swing.*;
