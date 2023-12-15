@@ -6,7 +6,12 @@
 git clone https://github.com/johanesrendy/final-project-asd.git
 ```
 4. buka foldernya di intellij / vs code
-5. ngoding deh
+5. buka terminal di intellij/vscode ketik
+```git
+git checkout namakalian
+```
+contoh: git checkout rendy
+6. ngoding deh
 
 # step buat push/upload ke github
 1. buka terminal ketik
