@@ -11,6 +11,7 @@ git clone https://github.com/johanesrendy/final-project-asd.git
 git checkout namakalian
 ```
 contoh: git checkout rendy
+
 6. ngoding deh
 
 # step buat push/upload ke github
@@ -24,6 +25,9 @@ git push
 # kalo mau ngerjain lagi:
 1. buka terminalnya ketik
 ```git
+git fetch --all
+git checkout namakalian
 git pull origin main
 ```
-2. ngoding deh
+2. sesuaiin sama codingan kalian
+3. kalo udah sesuai, ngoding lagi
