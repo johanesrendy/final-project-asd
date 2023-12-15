@@ -14,12 +14,17 @@ public class Board extends JPanel {
     public static final int GRID_WIDHT_HALF = GRID_WIDTH / 2; // Grid-line's half-width
     public static final Color COLOR_GRID = Color.LIGHT_GRAY; // grid lines
     public static final int Y_OFFSET = 1; // Fine tune for better display
+    private boolean isHard;
 
     // Define properties (package-visible)
     /** Composes of 2D array of ROWS-by-COLS Cell instances */
     Cell[][] cells;
 
     /** Constructor to initialize the game board */
+    public Board(boolean isHard) {
+        this.isHard = isHard;
+        initGame();
+    }
     public Board() {
         initGame();
     }

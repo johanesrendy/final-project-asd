@@ -19,36 +19,23 @@ public class ModeMenu extends JFrame {
         mode1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        JFrame frame = new JFrame("Tic Tac Toe");
-                        // Set the content-pane of the JFrame to an instance of main JPanel
-                        frame.setContentPane(new GameMain(false));
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        frame.pack();
-                        frame.setLocationRelativeTo(null); // center the application window
-                        frame.setVisible(true); // show it
-                    }
-                });
+                startGame(false, false);
             }
         });
 
-        JButton mode2Button = new JButton("P vs AI");
+        JButton mode2Button = new JButton("P vs AI (Easy)");
         mode2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        JFrame frame = new JFrame("Tic Tac Toe - P vs AI");
-                        frame.setContentPane(new GameMain(true)); // Pass true to indicate P vs AI mode
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        frame.pack();
-                        frame.setLocationRelativeTo(null);
-                        frame.setVisible(true);
-                        setVisible(false);
-                    }
-                });
+                startGame(true, false);
+            }
+        });
+
+        JButton mode3Button = new JButton("P vs AI (Hard)");
+        mode3Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame(true, true);
             }
         });
 
@@ -82,6 +69,9 @@ public class ModeMenu extends JFrame {
         panel.add(mode2Button, gbc);
 
         gbc.gridy++;
+        panel.add(mode3Button, gbc);
+
+        gbc.gridy++;
         panel.add(exitButton, gbc);
 
         // Add the panel to the frame
@@ -91,5 +81,36 @@ public class ModeMenu extends JFrame {
         setPreferredSize(new Dimension(400, 300)); // Set the preferred width and height
         pack(); // Pack the components
         setLocationRelativeTo(null); // Center the frame on the screen
+    }
+
+    private void startGame(boolean isPvsAI, boolean isHard) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("Tic Tac Toe");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                if (isPvsAI) {
+                    frame.setContentPane(new GameMain(isPvsAI, isHard));
+                } else {
+                    frame.setContentPane(new GameMain(isPvsAI));
+                }
+
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                setVisible(false);
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ModeMenu modeMenu = new ModeMenu();
+                modeMenu.setVisible(true);
+            }
+        });
     }
 }

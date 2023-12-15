@@ -27,10 +27,85 @@ public class GameMain extends JPanel {
 
     private int xWins = 0;
     private int oWins = 0;
-    private boolean isPvsAI;
+    public static boolean isPvsAI;
+    private boolean isHard;
 
     public GameMain(boolean isPvsAI) {
         this.isPvsAI = isPvsAI;
+        this.isHard = false;
+        // halo
+
+        super.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int mouseX = e.getX();
+                int mouseY = e.getY();
+                int row = mouseY / Cell.SIZE;
+                int col = mouseX / Cell.SIZE;
+
+                if (currentState == State.PLAYING) {
+                    if (row >= 0 && row < Board.ROWS && col >= 0 && col < Board.COLS
+                            && board.cells[row][col].content == Seed.NO_SEED) {
+                        currentState = board.stepGame(currentPlayer, row, col);
+                        currentPlayer = (currentPlayer == Seed.CROSS) ? Seed.NOUGHT : Seed.CROSS;
+                    }
+                } else {
+                    newGame();
+                }
+                repaint();
+
+                if (isPvsAI && currentState == State.PLAYING && currentPlayer == Seed.NOUGHT) {
+                    AIMove();
+                }
+            }
+        });
+
+        statusBar = new JLabel();
+        statusBar.setFont(FONT_STATUS);
+        statusBar.setBackground(COLOR_BG_STATUS);
+        statusBar.setOpaque(true);
+        statusBar.setPreferredSize(new Dimension(300, 30));
+        statusBar.setHorizontalAlignment(JLabel.LEFT);
+        statusBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 12));
+
+        JButton newGameButton = new JButton("New Game");
+        newGameButton.setPreferredSize(new Dimension(100, 30));
+        newGameButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newGame();
+                repaint();
+            }
+        });
+
+        JPanel statusBarPanel = new JPanel();
+        statusBarPanel.setLayout(new BorderLayout());
+
+        JPanel statusBarContentPanel = new JPanel();
+        statusBarContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        statusBarContentPanel.add(statusBar);
+
+        statusBarPanel.add(statusBarContentPanel, BorderLayout.WEST);
+        statusBarPanel.add(newGameButton, BorderLayout.EAST);
+
+        super.setLayout(new BorderLayout());
+        super.add(statusBarPanel, BorderLayout.PAGE_END);
+        super.setPreferredSize(new Dimension(Board.CANVAS_WIDTH, Board.CANVAS_HEIGHT + 30));
+        super.setBorder(BorderFactory.createLineBorder(COLOR_BG_STATUS, 2, true));
+
+        initGame();
+        newGame();
+
+
+        if (isPvsAI && currentPlayer == Seed.NOUGHT) {
+            AIMove();
+        }
+    }
+
+    public GameMain(boolean isPvsAI, boolean isHard) {
+        this.isPvsAI = isPvsAI;
+        this.isHard = isHard;
 
         super.addMouseListener(new MouseAdapter() {
             @Override
@@ -101,15 +176,29 @@ public class GameMain extends JPanel {
 
 
     private void AIMove() {
-        int[] move = findBestMoveHard();
+        int[] move;
+        if (isHard) {
+            move = findBestMoveHard();
+        } else {
+            move = findBestMoveEasy();
+        }
+
         int row = move[0];
         int col = move[1];
 
         currentState = board.stepGame(Seed.NOUGHT, row, col);
         currentPlayer = Seed.CROSS;
         repaint();
+    }
 
+    private int[] findBestMoveEasy() {
+        int row, col;
+        do {
+            row = (int) (Math.random() * Board.ROWS);
+            col = (int) (Math.random() * Board.COLS);
+        } while (board.cells[row][col].content != Seed.NO_SEED);
 
+        return new int[]{row, col};
     }
 
     private int[] findBestMoveHard() {
@@ -134,20 +223,6 @@ public class GameMain extends JPanel {
         }
 
         return bestMove;
-    }
-
-    private int[] findBestMoveEasy() {
-        // Replace this with your AI algorithm to find the best move
-        // For example, you can use the minimax algorithm
-
-        // Dummy implementation: randomly choose an empty cell
-        int row, col;
-        do {
-            row = (int) (Math.random() * Board.ROWS);
-            col = (int) (Math.random() * Board.COLS);
-        } while (board.cells[row][col].content != Seed.NO_SEED);
-
-        return new int[]{row, col};
     }
 
     private int minimax(int depth, boolean isMaximizing) {
@@ -216,7 +291,7 @@ public class GameMain extends JPanel {
             statusBar.setText((currentPlayer == Seed.CROSS) ? "X's Turn" : "O's Turn");
         } else if (currentState == State.DRAW) {
             statusBar.setForeground(Color.RED);
-            statusBar.setText("It's a Draw! Click to play again");
+            statusBar.setText("It's a Draw!");
         } else if (currentState == State.CROSS_WON) {
             playerOnePoints++;
             statusBar.setForeground(Color.RED);
@@ -253,7 +328,7 @@ public class GameMain extends JPanel {
             @Override
             public void run() {
                 JFrame frame = new JFrame(TITLE);
-                frame.setContentPane(new GameMain(true));
+                frame.setContentPane(new GameMain(isPvsAI));
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
