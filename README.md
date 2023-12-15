@@ -27,4 +27,5 @@ git push
 ```git
 git pull origin main
 ```
-2. ngoding deh
+2. sesuaiin sama codingan kalian
+3. kalo udah sesuai, ngoding lagi
