@@ -11,6 +11,7 @@ git clone https://github.com/johanesrendy/final-project-asd.git
 git checkout namakalian
 ```
 contoh: git checkout rendy
+
 6. ngoding deh
 
 # step buat push/upload ke github
