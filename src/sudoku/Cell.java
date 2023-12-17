@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 //javax.swing an upgrade of java.awt, it is more modern
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 /**
  * The Cell class model the cells of the Sudoku puzzle, by customizing
@@ -36,9 +39,32 @@ public class Cell extends JTextField {
         super(); // JTextField
         this.row = row;
         this.col = col;
-        // Inherited from JTextField: Beautify all the cells once for all
+        setDocument(new LimitInputCell(1));// Make cell has a limit length input
         super.setHorizontalAlignment(JTextField.CENTER);
         super.setFont(FONT_NUMBERS);
+
+        // Add thicker border for the 3x3 regions
+        int top = row % 3 == 0 ? 2 : 0;
+        int left = col % 3 == 0 ? 2 : 0;
+        int bottom = 0;
+        int right = 0;
+
+        // Set thicker border for the 3x3 regions
+        MatteBorder regionBorder = new MatteBorder(top, left, bottom, right, Color.BLACK);
+
+        // Set thinner border between cells
+        LineBorder cellBorder = new LineBorder(Color.BLACK, 1, true);
+
+        // Combine the thicker and thinner borders
+        setBorder(new CompoundBorder(regionBorder, cellBorder));
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 
     /** Reset this cell for a new game, given the puzzle number and isGiven */
@@ -68,4 +94,5 @@ public class Cell extends JTextField {
             super.setBackground(BG_WRONG_GUESS);
         }
     }
+
 }
